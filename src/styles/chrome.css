@@ -269,13 +269,50 @@ html.is-loading body {
   inset: 0;
   z-index: 200;
   background: var(--paper);
-  color: var(--ink);
+  /* the title's colours: ink + bronze on paper, tweened to ivory + gold as the plates come in */
+  --pre-fg: var(--ink);
+  --pre-ac: var(--bronze);
+  color: var(--pre-fg);
+  display: grid;
+  place-items: center;
+  overflow: clip;
+  will-change: clip-path;
+}
+/* the plate stack: full-bleed, every plate on top of the one after it. Each plate is clipped
+   by its own inset() and its <img> is what GSAP scales/drifts, so the clip edge stays crisp */
+.pre-stack {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* its own stacking context, so the plates' z-indexes never outrank the card */
+  visibility: hidden;
+}
+.pre-plate {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  will-change: clip-path;
+}
+.pre-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
+  will-change: transform;
+  user-select: none;
+}
+/* the same bordeaux grade the hero plate wears: it puts the plates in the cinema world and
+   keeps the ivory title readable over a bright body panel */
+.pre-grade {
+  z-index: 50;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, color-mix(in srgb, var(--cinema) 34%, transparent), color-mix(in srgb, var(--cinema) 62%, transparent) 100%);
+}
+.pre-card {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 18px;
-  will-change: clip-path;
 }
 .pre-brand {
   font-family: var(--font-display);
@@ -288,7 +325,7 @@ html.is-loading body {
 .pre-line {
   width: 240px;
   height: 1px;
-  background: var(--bronze);
+  background: var(--pre-ac);
   transform: scaleX(0);
   transform-origin: left center;
 }
@@ -299,14 +336,14 @@ html.is-loading body {
   align-items: baseline;
 }
 .pre-est {
-  color: var(--bronze);
+  color: var(--pre-ac);
 }
 .pre-count {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.18em;
-  color: color-mix(in srgb, var(--ink) 55%, transparent);
+  opacity: 0.6;
   font-variant-numeric: lining-nums tabular-nums;
 }
 
