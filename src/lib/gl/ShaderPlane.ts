@@ -126,12 +126,13 @@ export class ShaderPlane {
     return this.locs.get(name) ?? null;
   }
 
-  /** Canvas CSS size → drawing-buffer size (dpr capped for fill-rate). */
+  /** Canvas layout size → drawing-buffer size (dpr capped for fill-rate). Layout size, not the
+   *  client rect: an ancestor transform (the hero screen scaling up) must not resize the buffer,
+   *  or every uniform given in layout px × dpr would land in the wrong place. */
   resize() {
-    const r = this.canvas.getBoundingClientRect();
     this.dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    const w = Math.max(1, Math.round(r.width * this.dpr));
-    const h = Math.max(1, Math.round(r.height * this.dpr));
+    const w = Math.max(1, Math.round(this.canvas.clientWidth * this.dpr));
+    const h = Math.max(1, Math.round(this.canvas.clientHeight * this.dpr));
     if (this.canvas.width !== w || this.canvas.height !== h) {
       this.canvas.width = w;
       this.canvas.height = h;

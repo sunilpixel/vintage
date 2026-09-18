@@ -38,10 +38,12 @@ export function createLens(plane: ShaderPlane, opts: LensOptions) {
   let h = 1;
   let labelW = 0;
 
+  // All positions live in the area's own layout pixels (offsetWidth/Height), never in the
+  // client rect: the hero scales the plate's parent (intro + full-bleed scrub), and the ring
+  // and canvas inherit that transform, so screen-space offsets would drift by the scale.
   const place = () => {
-    const r = area.getBoundingClientRect();
-    w = r.width;
-    h = r.height;
+    w = area.offsetWidth || 1;
+    h = area.offsetHeight || 1;
     restPx = [opts.rest[0] * w, opts.rest[1] * h];
     if (!hovering) {
       target.x = restPx[0];
@@ -60,9 +62,12 @@ export function createLens(plane: ShaderPlane, opts: LensOptions) {
   ro.observe(area);
 
   const onMove = (e: PointerEvent) => {
+    // map the pointer back through whatever scale the ancestors apply
     const r = area.getBoundingClientRect();
-    target.x = e.clientX - r.left;
-    target.y = e.clientY - r.top;
+    const sx = r.width / w || 1;
+    const sy = r.height / h || 1;
+    target.x = (e.clientX - r.left) / sx;
+    target.y = (e.clientY - r.top) / sy;
   };
   const onEnter = (e: PointerEvent) => {
     hovering = true;
