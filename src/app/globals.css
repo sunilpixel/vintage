@@ -119,6 +119,11 @@ button {
   line-height: 0.92;
   letter-spacing: -0.015em;
   margin: 0;
+  /* Cormorant defaults to oldstyle figures, which render an index as "o2 / o5". Every numeral
+     on the page is a counter, a year or a chapter number, so the display face is set to lining
+     throughout — note font-variant-numeric does not merge, so any rule that also sets
+     tabular-nums has to repeat lining-nums. */
+  font-variant-numeric: lining-nums;
 }
 .disp em,
 .it {

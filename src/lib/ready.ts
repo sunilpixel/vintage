@@ -25,6 +25,3 @@ export function markReady() {
   subs.clear();
 }
 
-export function isReady() {
-  return ready;
-}

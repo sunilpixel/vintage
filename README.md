@@ -1,109 +1,131 @@
-# VINTAGE MOTORS — Timeless Machines
+# Vintage Motors
 
-An eight-chapter cinematic homepage for a private collection of classic automobiles.
-Next.js 16 (App Router, React 19, Tailwind 4) + GSAP 3.15 (ScrollTrigger, SplitText, Observer) +
-Lenis smooth scroll + a small dependency-free WebGL layer for the optical-lens effects.
+A single-page site for a private collection of classic cars, told as a film in nine chapters.
+Scroll-driven throughout: pinned sections, a scrubbed frame sequence, a WebGL lens, and a colour
+scheme that morphs between a light and a dark world as you move down the page.
+
+Next.js 16 (App Router) · React 19 with the React Compiler · Tailwind CSS 4 · GSAP 3.15
+(ScrollTrigger, SplitText, ScrambleText) · Lenis · a small dependency-free WebGL layer.
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
+npm run dev          # http://localhost:3000
 npm run build && npm start
+
+npm run lint         # eslint
+npm run typecheck    # tsc --noEmit
 ```
 
-## Structure
+## Layout
 
 ```
 src/
-  app/            layout (fonts, metadata), page (section order), globals.css (tokens, type, atoms)
+  app/
+    layout.tsx        fonts (next/font), metadata, the two font CSS variables
+    page.tsx          the section order — this is the whole page
+    globals.css       design tokens, @theme, base type, shared atoms (.disp .copy .lbl .num .hl)
   styles/
-    chrome.css    nav, menu overlay, cursor, section rail, lens ring
-    sections.css  the eight sections on the 1440 design grid (1 design px = var(--u))
-    mobile.css    ≤ 860px reflow (pinned timelines are off at this width)
-  components/     SmoothScroll (Lenis ⇄ ScrollTrigger, --fit), Preloader, Handoff, Nav + menu,
-                  Cursor, SectionIndicator, Magnetic, LensRing, Kicker
-  sections/       Hero · Heritage · Collection · Machine · Craft · Journey · Journal · Final
+    chrome.css        nav, menu overlay, cursor, chapter counter, preloader, lens ring
+    sections.css      per-section layout, in page order
+    mobile.css        the ≤ 860px reflow
+  sections/           one file per chapter; each owns its markup and its GSAP timeline
+  components/         SmoothScroll, ThemeMorph, Preloader, Nav, Cursor, Chapter, Marquee,
+                      PillButton, Magnetic, LensRing
   lib/
-    gsap.ts       plugin registration, breakpoints (DESKTOP / MOBILE / FINE_POINTER)
-    ready.ts      one-shot "site is ready" signal (preloader → hero intro / nav / rail)
-    lens.ts       pointer-tracked lens controller (rest position, lerp, DOM ring mirroring)
-    gl/           ShaderPlane (fullscreen quad, textures, uniforms) + the two fragment shaders
-  content/site.ts cars, materials, journal stories, section labels
-public/img/       the 35 plates (see "Images")
-public/reel/      the Collection's frame sequence (96 JPEGs + manifest), built by scripts/build-reel.py
-design/           the original design canvas sources (build.py → *.dc.html)
+    gsap.ts           plugin registration, the DESKTOP / FINE_POINTER queries, radius()
+    theme.ts          the paper ⇄ cinema colour morph
+    ready.ts          one-shot "site is ready" signal (preloader → hero intro, nav, counter)
+    velocity.ts       smoothed scroll velocity, written once per frame
+    lens.ts           pointer-tracked lens controller
+    gl/               ShaderPlane (fullscreen quad + uniforms) and the fragment shaders
+  content/site.ts     cars, materials, journal stories, manifesto copy, chapter labels
+public/img/           photography + credits.json
+public/reel/          the Machine section's 96-frame sequence, built by scripts/build-reel.py
 ```
 
-## Layout model
+## The chapters
 
-Flowing sections (Craft, Journal, Final) are laid out on the 1440 design grid with
-`--u = 100vw / 1440`, so they scale with the viewport width. Pinned sections (Hero, Heritage,
-Collection, Machine, Journey) put their typography and UI on a **fit-scaled 1440×900 stage** (`.stage`,
-`--fit = min(vw/1440, vh/900)`, set from JS) while their plates stay full-bleed — the composition
-is identical on a 1366×768 laptop and a 4K monitor, so nothing can collide. Never tween a
-`.stage` transform; wrap what you animate (see `.mac-zoom`).
+| # | Section | What it does |
+|---|---------|--------------|
+| 01 | Hero | A rounded screen between the top labels and the giant wordmark opens to full viewport like a curtain; letterbox bars slide in. The screen tilts to the pointer and a WebGL lens roams the plate. |
+| 02 | Manifesto | One statement filled in word by word on scroll; three small plates open inline as their line is read; figures count up below. |
+| 03 | Motion | Pinned. Three rows of plates drift in alternating directions until the E-Type lands dead centre and stops; the rest dim. |
+| 04 | Collection | Pinned. Six machines listed left; two frames on the right wipe to the next machine by clip-path. Clicking a row scrolls the pin to it. |
+| 05 | Machine | Pinned. 96 graded frames scrub with the scroll — first playing inside the letters of a giant MACHINE (SVG text clip-path), then filling the screen with hard cuts, a timecode and projector weave. |
+| 06 | Craft | A sticky card stack, one card per material. The covered card steps back as the next slides over it; labels unscramble, plates track the pointer in depth. |
+| 07 | Journey | Pinned tracking shot: a letterboxed strip opens to full height, the camera pans, the quote is read word by word and the light cools. |
+| 08 | Journal | Story rows. Plates open from a pill into a frame, hovering sweeps a tint and leans the plate toward the pointer. |
+| 09 | Final | The rear plate widens into a banner, the wordmark assembles letter by letter and leans under the pointer, and the clock shows local time at the coach house. |
 
-## Motion map
+Between Journal and Final a marquee band runs with the scroll — its speed and direction follow
+the scroll velocity.
 
-| # | Section | Mechanism |
-|---|---------|-----------|
-| — | Preloader | wordmark letters rise, hairline grows with real loading progress (fonts + first plates), darkness lifts; `lib/ready` releases the hero intro, nav and rail |
-| 01 | Hero | letterboxed frame opens on first scroll (clip-path), SplitText chars, pinned 150 %, WebGL lens follows the pointer and rests on the car, pointer parallax in the shader (type counter-moves), camera tracks on scroll, dark wipe out |
-| 02 | Heritage | "The family archive", pinned: a vertical timeline of five decades on the left; on the right each decade's archival print — paper margin, hand-written note, plate number — falls in from above the table, turning flat with a small bounce, onto a growing pile (the pile settles beneath it, and drifts with the pointer); the timeline dot and fill follow the decade |
-| 03 | Collection | "the reel" — a full-bleed film that scrolling scrubs forward and back: 96 graded frames drawn to a canvas, one segment per machine, hard cuts with a flash of light, names handing over letter by letter, a running timecode / frame counter, projector weave and flicker when the reel is pulled fast |
-| 04 | Machine | pinned; components spread out from the car (with rotation) and then hover in the studio air, wheel rotates, interior slides in, headlamp glows, camera pushes toward the wheel, headlamp becomes a circular portal into the workshop |
-| 05 | Craft | horizontal-mask reveals, letter-spacing transitions, WebGL material lens (hover METAL / LEATHER / WOOD / CHROME / ENGINE — crossfades with displacement) |
-| 06 | Journey | curtain opens on enter; pinned tracking shot on one plate (scale 1 → 1.4 → 1.96 with the pivot on the car), headline leaves upward and out of focus, quote types in, sun lowers then the evening cools; the next chapter's photograph appears as a framed 500×360 rectangle and opens up to the full viewport |
-| 07 | Journal | pinned intro: the fixed **handoff plate** (`components/Handoff`) settles from the viewport into the lead story's slot and swaps for the real image; asymmetric editorial grid, images and titles drift in opposite directions, hover = zoom + warm mono → colour + title shift + READ cursor |
-| 08 | Final | blur → sharp headline chars, sunset → night grade on scroll, magnetic footer links |
+## Conventions
 
-Global chrome: compressing navigation (scroll down / up), full-screen chapter menu, custom cursor
-(`data-cursor="image | link | view | drag | explore | read | lens"`), 01–08 section rail whose line
-grows with each section's progress, animated film grain.
+A few of these are load-bearing. Breaking them tends to fail quietly rather than loudly.
 
-## Motion layer
+**Colour lives in one place.** The palette is the tokens in `globals.css :root` — `--paper`,
+`--ink`, `--cinema`, `--bronze` and friends. `lib/theme.ts` maps each live variable to a *token
+name* and reads the computed value, so it never repeats a hex; `ThemeMorph` tweens `--bg`,
+`--fg`, `--accent` and `--bg-2` on `:root` when a `[data-theme]` section crosses the middle of
+the viewport. `layout.tsx`'s `viewport.themeColor` holds the one unavoidable copy of `--paper` —
+update it with the palette.
 
-- **WebGL planes** (`lib/gl/PlaneField.ts`, `lib/planes.ts`, `components/PlaneCanvas`): one fixed
-  canvas draws the Journal, Craft and Final photographs as subdivided GPU planes that follow
-  their DOM boxes. They bend and stretch with the scroll velocity, pull liquid-like toward the
-  pointer with a chromatic split and relax from their film grade to natural colour on hover, and
-  reveal behind a noise-edged wipe. The DOM `<img>` stays for layout, hover and fallback (touch /
-  no WebGL keep the DOM reveals).
-- **Velocity skew**: `SmoothScroll` writes `--vskew` / `--vel` every frame from Lenis; every
-  `.vskew` headline and the marquee lean with the scroll.
-- **Pointer depth**: Machine parts and the Heritage pile drift with the cursor by their own
-  `--depth`, via the CSS `translate` property so GSAP's `transform` stays untouched.
-- **3D type**: mask-line reveals turn up out of the page (`rotateX` + perspective); the Final
-  headline resolves from blur and tilt.
-- **Marquee** (`components/Marquee`): the wordmark band between Journal and Final runs with the
-  scroll — speed and direction follow the velocity.
+**Corner radius lives in one place too.** `--r` (16px, 12px on phones). Tweens that animate a
+corner call `radius()` from `lib/gsap.ts` rather than hard-coding a number, so JS and CSS cannot
+drift and phones get the smaller value for free.
 
-## WebGL lens
+**Tailwind sits underneath the hand-written CSS, not beside it.** The stylesheets are unlayered,
+so every rule in them outranks every utility regardless of specificity. Where a shared class sets
+the same property as a utility — `.disp` letter-spacing, `.copy` font-size — the utility needs a
+trailing `!`. Two more Tailwind 4 notes: `max-*` is exclusive, so the breakpoints are registered
+one pixel up as `--breakpoint-desk: 861px` / `--breakpoint-lap: 1101px` and you write `max-desk:`
+rather than `max-[860px]:`; and never put `scale-*` on a GSAP-driven element, because v4 emits the
+standalone `scale` property, which composes with GSAP's inline `transform` and applies twice.
 
-`lib/gl/ShaderPlane.ts` draws one image on a fullscreen quad with `object-fit: cover` maths and
-CSS-filter-like grading in GLSL. `HERO_FRAG` magnifies under the lens with a barrel bulge,
-chromatic aberration toward the rim, a bronze/black grade and lifted highlights; `CRAFT_FRAG`
-reveals a macro material texture instead. If WebGL is unavailable (or on touch devices for
-Craft) the plain `<img>` stays visible and Craft falls back to a small swap image.
+**Sections own their motion.** Every section is a client component holding one `useGSAP` with a
+`scope`. Call it with no dependency array — passing one defers cleanup, which on this page means
+duplicate pins. Class names in the markup that start with the section's prefix are GSAP hooks;
+the layout they used to carry may now be Tailwind utilities.
 
-## Images
+**`overflow: clip`, never `hidden`.** On `body` or a section, `overflow: hidden` makes the element
+a scroll container and kills every `position: sticky` below it.
 
-Every plate in `public/img/` is a Creative Commons placeholder (Flickr / Wikimedia Commons);
-photographer, licence and source page are listed in `design/img/credits.json`. They are ~1000 px
-wide and colour-graded in CSS/GLSL. To ship, replace them with commissioned or generated 4K+
-plates using the same file names, or edit the paths in `content/site.ts` and the section files.
-The archival scans need separate clearance before publication.
+**Type.** Cormorant Garamond for display, Jost for everything else. Cormorant sets lighter and
+smaller per em than most serifs, so `.disp` runs at weight 500 and the small display-font spots
+(`.num`, the nav brand, the chapter counter) run at 600 and force `lining-nums` — the face
+defaults to oldstyle figures, which turn an index into `o2 / o5`.
+
+## Styling split
+
+`sections/Craft.tsx` is laid out in Tailwind utilities; the other eight sections are laid out in
+`styles/sections.css`. That is a real inconsistency, not a rule — Craft was ported first and the
+rest have not followed yet. Either direction is defensible: utilities read well for layout, and
+hand-written CSS reads better for the compound hover/pin/clip-path states the other sections lean
+on. Pick one before the next section is touched.
+
+## Photography
+
+Everything in `public/img/` is a Creative Commons placeholder from Wikimedia Commons or Flickr;
+`public/img/credits.json` records the photographer, licence and source page for each file, and
+several are share-alike. Replace them with licensed or commissioned plates before this ships.
+
+Most are around 1000px wide, which is fine for the plates but not for anything full-bleed — the
+hero was visibly soft until it was replaced with a 2200px version. The site uses plain `<img>`
+(no `next/image`, no `srcset`), so one file serves every use of a given plate; keep the large
+ones near 350KB. Moving to `next/image` is the obvious next step if the photography is upgraded.
 
 ## The reel
 
-`scripts/build-reel.py` renders the Collection's frame sequence: a graded Ken Burns pass over
-the six car plates with short crossfades at the cuts (`python scripts/build-reel.py`). It is a
-placeholder for real footage — export the final film as the same `f_000.jpg …` sequence (24 fps,
-16 frames per car, any resolution) and update `REEL` in `sections/Collection.tsx` if the count
-changes. Frames load lazily when the section comes within two viewports (or after 4 s).
+`scripts/build-reel.py` renders the Machine section's frame sequence — a graded Ken Burns pass
+over the car plates with crossfades at the cuts. It is a stand-in for real footage: export the
+final film as the same `f_000.jpg …` sequence and update `REEL` in `sections/Machine.tsx` if the
+frame count changes.
 
 ## Breakpoints
 
-- ≥ 861px: full experience (pins, lens, cursor).
-- ≤ 860px: column reflow, native horizontal strip for the collection, no pins, no custom cursor.
-- Pointer without hover (touch): the lens rests on the car; Craft switches to the swap image.
-# vintage
+- ≥ 861px — the full experience: pins, the WebGL lens, the custom cursor.
+- ≤ 860px — column reflow, no pins, no custom cursor.
+
+`DESKTOP` in `lib/gsap.ts` and `--breakpoint-desk` in `globals.css` are the same line; keep them
+in step.

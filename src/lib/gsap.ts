@@ -11,7 +11,6 @@ gsap.defaults({ ease: "power3.out", duration: 1.2 });
 
 /** Desktop breakpoint used by every pinned section. */
 export const DESKTOP = "(min-width: 861px)";
-export const MOBILE = "(max-width: 860px)";
 export const FINE_POINTER = "(hover: hover) and (pointer: fine)";
 
 /** The --r token in px. The CSS owns the value; the corner tweens read it so the two can't

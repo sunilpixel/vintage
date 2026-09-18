@@ -3,7 +3,7 @@
 import { gsap } from "@/lib/gsap";
 
 /**
- * The page lives in two worlds: "paper" (warm bone, green ink) and "cinema" (green-black, ivory
+ * The page lives in two worlds: "paper" (cream, espresso ink) and "cinema" (deep bordeaux, cream
  * type). Every section declares its world with `data-theme`; the body colours tween between them
  * as the section reaches the middle of the viewport (see components/ThemeMorph). Sections that
  * change world mid-pin (the hero) call setTheme themselves.
@@ -39,6 +39,3 @@ export function setTheme(theme: Theme, immediate = false) {
   gsap.to(root, { ...next, duration: 1.1, ease: "power2.inOut", overwrite: "auto" });
 }
 
-export function currentTheme() {
-  return current;
-}
