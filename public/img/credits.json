@@ -1,0 +1,283 @@
+{
+ "hero": {
+  "source": "Wikimedia Commons",
+  "title": "Aston Martin DB5 (Skyfall)",
+  "license": "CC BY-SA 4.0",
+  "artist": "DeFacto",
+  "page": "https://commons.wikimedia.org/wiki/File:Aston_Martin_DB5_(Skyfall).jpg",
+  "file": "hero.jpg",
+  "w": 2200,
+  "h": 1396,
+  "note": "original 3652x2317; resized to 2200 and re-encoded (mozjpeg q72) for the full-bleed hero"
+ },
+ "heritage_archive": {
+  "source": "flickr",
+  "title": "Jaguar E-Type Roadster (Dutch Postcard)",
+  "license": "by",
+  "artist": "aldenjewell",
+  "page": "https://www.flickr.com/photos/31411679@N08/52560373828",
+  "file": "heritage_archive.jpg",
+  "w": 900,
+  "h": 548
+ },
+ "heritage_archive3": {
+  "source": "flickr",
+  "title": "Mercedes 300SL Gullwing (1955)",
+  "license": "by-sa",
+  "artist": "Kevin Decherf",
+  "page": "https://www.flickr.com/photos/44133767@N06/18245326173",
+  "file": "heritage_archive3.jpg",
+  "w": 800,
+  "h": 533
+ },
+ "car_etype": {
+  "source": "flickr",
+  "title": "Jaguar E-Type Roadster V12",
+  "license": "by",
+  "artist": "nakhon100",
+  "page": "https://www.flickr.com/photos/8058098@N07/12486227103",
+  "file": "car_etype.jpg",
+  "w": 1024,
+  "h": 768
+ },
+ "car_300sl": {
+  "source": "flickr",
+  "title": "Mercedes Benz 300 SL 1955",
+  "license": "by-sa",
+  "artist": "RL GNZLZ",
+  "page": "https://www.flickr.com/photos/37691369@N08/15163782634",
+  "file": "car_300sl.jpg",
+  "w": 1024,
+  "h": 768
+ },
+ "car_356": {
+  "source": "flickr",
+  "title": "Porsche 356 Speedster, 1957",
+  "license": "by-sa",
+  "artist": "stephenhanafin",
+  "page": "https://www.flickr.com/photos/58907675@N00/432562761",
+  "file": "car_356.jpg",
+  "w": 1024,
+  "h": 681
+ },
+ "car_db5": {
+  "source": "flickr",
+  "title": "1963 Aston Martin DB5",
+  "license": "cc0",
+  "artist": "Bernard Spragg",
+  "page": "https://www.flickr.com/photos/88123769@N02/16643031603",
+  "file": "car_db5.jpg",
+  "w": 1024,
+  "h": 672
+ },
+ "car_250": {
+  "source": "flickr",
+  "title": "1960 Ferrari 250 GT California Spyder",
+  "license": "by",
+  "artist": "Rutger van der Maar",
+  "page": "https://www.flickr.com/photos/83468718@N06/49227345221",
+  "file": "car_250.jpg",
+  "w": 983,
+  "h": 598
+ },
+ "car_maserati": {
+  "source": "Wikimedia Commons",
+  "title": "File:Maserati 3500 GT (7552776574).jpg",
+  "license": "CC BY 2.0",
+  "artist": "nakhon100",
+  "page": "https://commons.wikimedia.org/wiki/File:Maserati_3500_GT_(7552776574).jpg",
+  "file": "car_maserati.jpg",
+  "w": 1024,
+  "h": 661
+ },
+ "machine_car": {
+  "source": "Wikimedia Commons",
+  "title": "File:Aston Martin DB4 GT Zagato (Ank kumar, Infosys Limited) 34.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Ank Kumar",
+  "page": "https://commons.wikimedia.org/wiki/File:Aston_Martin_DB4_GT_Zagato_(Ank_kumar,_Infosys_Limited)_34.jpg",
+  "file": "machine_car.jpg",
+  "w": 1200,
+  "h": 900
+ },
+ "machine_engine": {
+  "source": "Wikimedia Commons",
+  "title": "File:Maserati 3500 GT engine - Flick - Concorso Italiano 2004.jpg",
+  "license": "CC BY 2.0",
+  "artist": "Craig Howell from San Carl",
+  "page": "https://commons.wikimedia.org/wiki/File:Maserati_3500_GT_engine_-_Flick_-_Concorso_Italiano_2004.jpg",
+  "file": "machine_engine.jpg",
+  "w": 800,
+  "h": 600
+ },
+ "machine_wheel": {
+  "source": "Wikimedia Commons",
+  "title": "File:Aston Martin DB 4, Bj. 1960, linkes Hinterrad(2008-06-28).JPG",
+  "license": "CC BY-SA 2.0 de",
+  "artist": "Lothar Spurzem",
+  "page": "https://commons.wikimedia.org/wiki/File:Aston_Martin_DB_4,_Bj._1960,_linkes_Hinterrad(2008-06-28).JPG",
+  "file": "machine_wheel.jpg",
+  "w": 700,
+  "h": 597
+ },
+ "machine_steering": {
+  "source": "flickr",
+  "title": "wooden steering wheel",
+  "license": "by",
+  "artist": "waferboard",
+  "page": "https://www.flickr.com/photos/60944931@N00/15019917946",
+  "file": "machine_steering.jpg",
+  "w": 800,
+  "h": 533
+ },
+ "machine_seat": {
+  "source": "Wikimedia Commons",
+  "title": "File:Concorso Eleganza Villa d'Este 2013 (8847108954).jpg",
+  "license": "CC BY 2.0",
+  "artist": "Classic Virus",
+  "page": "https://commons.wikimedia.org/wiki/File:Concorso_Eleganza_Villa_d'Este_2013_(8847108954).jpg",
+  "file": "machine_seat.jpg",
+  "w": 800,
+  "h": 616
+ },
+ "machine_chrome": {
+  "source": "flickr",
+  "title": "Mercedes 300SL Gullwing",
+  "license": "by",
+  "artist": "andreboeni",
+  "page": "https://www.flickr.com/photos/65344061@N06/11012015573",
+  "file": "machine_chrome.jpg",
+  "w": 800,
+  "h": 600
+ },
+ "machine_chassis": {
+  "source": "Wikimedia Commons",
+  "title": "File:Mercedes-Benz SL 300 Chassis vl TCE.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Stahlkocher",
+  "page": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_SL_300_Chassis_vl_TCE.jpg",
+  "file": "machine_chassis.jpg",
+  "w": 900,
+  "h": 512
+ },
+ "craft_main": {
+  "source": "Wikimedia Commons",
+  "title": "File:Car Restoration Workshop (Unsplash).jpg",
+  "license": "CC0",
+  "artist": "Igor Ovsyannykov igorovsyannykov</a",
+  "page": "https://commons.wikimedia.org/wiki/File:Car_Restoration_Workshop_(Unsplash).jpg",
+  "file": "craft_main.jpg",
+  "w": 1100,
+  "h": 733
+ },
+ "craft_metal": {
+  "source": "Wikimedia Commons",
+  "title": "File:Cairo Craftsman.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "FischerFotos",
+  "page": "https://commons.wikimedia.org/wiki/File:Cairo_Craftsman.jpg",
+  "file": "craft_metal.jpg",
+  "w": 900,
+  "h": 600
+ },
+ "craft_leather": {
+  "source": "Wikimedia Commons",
+  "title": "File:Dülmen, Rolls-Royce Phantom II, Innenraum -- 2024 -- 5876.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "<span title=\"German photographe",
+  "page": "https://commons.wikimedia.org/wiki/File:Dülmen,_Rolls-Royce_Phantom_II,_Innenraum_--_2024_--_5876.jpg",
+  "file": "craft_leather.jpg",
+  "w": 700,
+  "h": 1050
+ },
+ "craft_wood": {
+  "source": "Wikimedia Commons",
+  "title": "File:Concorso Eleganza Villa d'Este 2013 (8846524487).jpg",
+  "license": "CC BY 2.0",
+  "artist": "Classic Virus",
+  "page": "https://commons.wikimedia.org/wiki/File:Concorso_Eleganza_Villa_d'Este_2013_(8846524487).jpg",
+  "file": "craft_wood.jpg",
+  "w": 800,
+  "h": 600
+ },
+ "craft_chrome": {
+  "source": "flickr",
+  "title": "Chrome car grill",
+  "license": "cc0",
+  "artist": "StockyPics",
+  "page": "https://www.flickr.com/photos/135371437@N04/21753449492",
+  "file": "craft_chrome.jpg",
+  "w": 800,
+  "h": 600
+ },
+ "craft_engine": {
+  "source": "Wikimedia Commons",
+  "title": "File:Mercedes 300 SL Engine EMS.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Mercedes_300_SL_Engine_EMS.jpg",
+  "file": "craft_engine.jpg",
+  "w": 800,
+  "h": 599
+ },
+ "journey": {
+  "source": "Wikimedia Commons",
+  "title": "File:MERCEDES-BENZ 300 SL COUPÉ W 198 1955 (27232016362).jpg",
+  "license": "CC BY 2.0",
+  "artist": "Franco Vannini from Sansep",
+  "page": "https://commons.wikimedia.org/wiki/File:MERCEDES-BENZ_300_SL_COUPÉ_W_198_1955_(27232016362).jpg",
+  "file": "journey.jpg",
+  "w": 1440,
+  "h": 960
+ },
+ "journey_far": {
+  "source": "Wikimedia Commons",
+  "title": "File:Magic Sunset on Rooi Els Coastal Road, South Africa.jpg",
+  "license": "CC BY 2.0",
+  "artist": "Danie van der Merwe from C",
+  "page": "https://commons.wikimedia.org/wiki/File:Magic_Sunset_on_Rooi_Els_Coastal_Road,_South_Africa.jpg",
+  "file": "journey_far.jpg",
+  "w": 1200,
+  "h": 803
+ },
+ "journal_restoration": {
+  "source": "flickr",
+  "title": "Man Underneath Aston Martin DB5",
+  "license": "by",
+  "artist": "craigmdennis",
+  "page": "https://www.flickr.com/photos/26968630@N08/8031065814",
+  "file": "journal_restoration.jpg",
+  "w": 1000,
+  "h": 667
+ },
+ "journal_alps": {
+  "source": "flickr",
+  "title": "1961 Porsche 356 Roadster",
+  "license": "by",
+  "artist": "Nathan Bittinger",
+  "page": "https://www.flickr.com/photos/45777305@N04/4207137052",
+  "file": "journal_alps.jpg",
+  "w": 1000,
+  "h": 667
+ },
+ "journal_golden": {
+  "source": "flickr",
+  "title": "Ferrari 250 GT LWB Berlinetta Scaglietti TdF - 'PV 96' - 1997 GOODWOOD FESTIVAL OF SPEED",
+  "license": "by",
+  "artist": "PSParrot",
+  "page": "https://www.flickr.com/photos/46868174@N08/15660232918",
+  "file": "journal_golden.jpg",
+  "w": 1000,
+  "h": 485
+ },
+ "final_rear": {
+  "source": "Wikimedia Commons",
+  "title": "File:Aston Martin DB4 GT Zagato (Ank kumar, Infosys Limited) 07.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Ank Kumar",
+  "page": "https://commons.wikimedia.org/wiki/File:Aston_Martin_DB4_GT_Zagato_(Ank_kumar,_Infosys_Limited)_07.jpg",
+  "file": "final_rear.jpg",
+  "w": 900,
+  "h": 510
+ }
+}

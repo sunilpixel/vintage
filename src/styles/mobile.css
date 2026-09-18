@@ -1,0 +1,306 @@
+/* ==================================================================
+   Tablet + phone. Below 861px the pinned chapters either keep a
+   compact pin (hero, motion, machine, journey) or flow (collection).
+   ================================================================== */
+
+@media (max-width: 1100px) {
+  .coll-grid {
+    grid-template-columns: minmax(300px, 44%) 1fr;
+  }
+  .jrn-row {
+    grid-template-columns: 44px minmax(180px, 32%) 1fr 44px;
+  }
+}
+
+@media (max-width: 860px) {
+  :root {
+    --gut: 20px;
+    --r: 12px;
+  }
+
+  /* chrome */
+  .nav,
+  .nav-brand {
+    height: 72px;
+  }
+  .nav-brand-est {
+    display: none;
+  }
+  .pill-btn {
+    height: 40px;
+    padding: 0 6px 0 16px;
+    font-size: 11px;
+  }
+  .menu-list {
+    grid-template-columns: 1fr;
+    top: 90px;
+    transform: none;
+  }
+  .menu-item {
+    padding: 8px 0;
+  }
+  .menu-label {
+    font-size: 28px;
+  }
+  .menu-preview,
+  .menu-foot span:nth-child(2) {
+    display: none;
+  }
+  .chap-label {
+    display: none;
+  }
+
+  /* 01 hero */
+  .hero {
+    min-height: 0;
+    height: 100svh;
+    padding: 80px var(--gut) 52px;
+    gap: 10px;
+  }
+  .hero-top span:nth-child(2),
+  .hero-top span:nth-child(3),
+  .hero-bottom span:last-child {
+    display: none;
+  }
+  .hero-scroll {
+    position: static;
+    transform: none;
+  }
+  .hero-bottom {
+    justify-content: center;
+  }
+  .hero-word {
+    font-size: 19vw;
+  }
+  .hero-title {
+    bottom: 12vh;
+  }
+  .hero-title .disp {
+    font-size: 30px;
+  }
+
+  /* 02 manifesto */
+  .mani {
+    padding: 12vh var(--gut) 10vh;
+  }
+  .mani-text {
+    font-size: 30px;
+    max-width: none;
+    text-align: left;
+  }
+  .mani-figs {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 20px;
+    margin-top: 10vh;
+  }
+  .mani-fig-n {
+    font-size: 48px;
+  }
+
+  /* 03 in motion */
+  .motion {
+    min-height: 0;
+    height: 100svh;
+    --ph: min(18vh, 34vw);
+  }
+  .motion-head {
+    top: 80px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .motion-head .lbl.dim {
+    display: none;
+  }
+  .motion-h {
+    font-size: 24px;
+  }
+  .motion-rows {
+    top: 56%;
+    gap: 12px;
+  }
+  .motion-row {
+    gap: 12px;
+  }
+  .motion-cap {
+    padding: 7px 12px 6px;
+    gap: 8px;
+  }
+  .motion-cap .disp {
+    font-size: 13px;
+  }
+  .motion-cap .tiny {
+    display: none;
+  }
+
+  /* 04 collection: flows, frames stacked under the list */
+  .coll {
+    height: auto;
+    min-height: 0;
+    padding: 12vh var(--gut) 10vh;
+  }
+  .coll-grid {
+    height: auto;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .coll-h {
+    font-size: 40px;
+  }
+  .coll-specs {
+    height: 120px;
+    margin-top: 24px;
+  }
+  .coll-right {
+    order: -1;
+    position: sticky;
+    top: 72px;
+    z-index: 2;
+    grid-template-rows: none;
+    gap: 12px;
+  }
+  .coll-frame {
+    aspect-ratio: 1.4;
+  }
+  .coll-frame-b {
+    display: none;
+  }
+  .coll-img {
+    display: none;
+  }
+  .coll-img.on {
+    display: block;
+  }
+
+  /* 05 machine */
+  .mac-tc .tiny {
+    display: none;
+  }
+  .mac-name {
+    font-size: 30px;
+  }
+  .mac-title {
+    bottom: 24vh;
+    height: 34px;
+  }
+  .mac-specs {
+    bottom: 14vh;
+    right: var(--gut);
+    height: auto;
+  }
+  .mac-spec {
+    white-space: normal;
+    line-height: 1.6;
+    max-width: 80vw;
+  }
+  /* the segment strip moves up beside the timecode so the name and specs own the bottom */
+  .mac-strip {
+    bottom: auto;
+    top: 12vh;
+    gap: 5px;
+  }
+  .mac-seg {
+    width: 22px;
+  }
+  .mac-seg b {
+    display: none;
+  }
+
+  /* 07 journey */
+  .jny-quote {
+    font-size: 30px;
+    bottom: 24vh;
+  }
+  .jny-meta {
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    bottom: 15vh;
+    right: var(--gut);
+  }
+
+  /* 08 journal */
+  .jrn {
+    padding: 12vh var(--gut) 10vh;
+  }
+  .jrn-h {
+    font-size: 40px;
+  }
+  .jrn-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .jrn-side {
+    position: static;
+    flex-direction: row;
+    gap: 18px;
+  }
+  .jrn-row {
+    grid-template-columns: 1fr 40px;
+    grid-template-areas:
+      "plate arrow"
+      "txt arrow";
+    gap: 16px;
+    padding: 4vh 0;
+  }
+  .jrn-n {
+    display: none;
+  }
+  .jrn-plate {
+    grid-area: plate;
+  }
+  .jrn-txt {
+    grid-area: txt;
+  }
+  .jrn-arrow {
+    grid-area: arrow;
+    align-self: end;
+  }
+  .jrn-rule {
+    left: 0;
+    right: 0;
+  }
+  .jrn-title {
+    font-size: 28px;
+  }
+  .jrn-meta {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+
+  /* marquee */
+  .marquee-item {
+    font-size: 34px;
+    gap: 22px;
+    padding-right: 22px;
+  }
+
+  /* 09 legacy */
+  .fin {
+    padding: 12vh var(--gut) 60px;
+    gap: 6vh;
+  }
+  .fin-top {
+    grid-template-columns: 1fr;
+  }
+  .fin-h {
+    font-size: 40px;
+  }
+  .fin-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px 22px;
+  }
+  .fin-banner {
+    width: 100% !important;
+    border-radius: var(--r) !important;
+    height: 56vw;
+  }
+  .fin-mark {
+    font-size: 19vw;
+  }
+  .fin-foot {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

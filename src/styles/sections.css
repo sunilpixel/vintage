@@ -1,0 +1,878 @@
+/* ==================================================================
+   Sections. Fluid layout (no fixed stage): clamp() type, vh/vw
+   placement, and every section keeps its bottom 48px clear for the
+   fixed chapter counter. Dark sections carry their own world so their
+   type is right before the body has morphed.
+   ================================================================== */
+
+.page {
+  position: relative;
+  width: 100%;
+}
+.sec {
+  position: relative;
+  width: 100%;
+  overflow: clip;
+}
+/* the derived tints are declared wherever --fg is declared (here for :root, below for the dark
+   world) and inherited by everything else — the same values as computing them per element, at a
+   fraction of the style-recalc cost */
+:root,
+.world-cinema {
+  --fg-70: color-mix(in srgb, var(--fg) 70%, transparent);
+  --fg-50: color-mix(in srgb, var(--fg) 50%, transparent);
+  --fg-30: color-mix(in srgb, var(--fg) 30%, transparent);
+  --fg-16: color-mix(in srgb, var(--fg) 16%, transparent);
+  --fg-08: color-mix(in srgb, var(--fg) 8%, transparent);
+  --line: color-mix(in srgb, var(--fg) 16%, transparent);
+}
+.world-cinema {
+  --bg: var(--cinema);
+  --bg-2: var(--cinema-2);
+  --fg: var(--ivory);
+  --accent: var(--champ);
+  background: var(--cinema);
+  color: var(--ivory);
+}
+
+/* ================================================================== 01 HERO */
+.hero {
+  height: 100vh;
+  min-height: 620px;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 12px;
+  padding: 88px var(--gut) 56px;
+}
+.hero-top,
+.hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hero-bottom {
+  position: relative;
+  justify-content: flex-end;
+}
+.hero-scroll {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.hero-box {
+  position: relative;
+  z-index: 2;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-screen {
+  position: relative;
+  will-change: transform;
+}
+.hero-screen-in {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--cinema);
+  transform-origin: 50% 50%;
+  will-change: transform;
+  box-shadow: 0 40px 90px -30px color-mix(in srgb, var(--ink) 50%, transparent);
+}
+.hero-plate {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.34) saturate(0.62) contrast(1.12) brightness(0.8);
+  will-change: transform;
+}
+.hero.gl-on .hero-img {
+  visibility: hidden;
+}
+.hero-gl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.hero.gl-on .hero-gl {
+  opacity: 1;
+}
+.hero-grade {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cinema) 28%, transparent), color-mix(in srgb, var(--cinema) 0%, transparent) 30%, color-mix(in srgb, var(--cinema) 0%, transparent) 58%, color-mix(in srgb, var(--cinema) 60%, transparent));
+}
+.hero-word {
+  position: relative;
+  z-index: 1;
+  font-size: 17.4vw;
+  line-height: 0.78;
+  letter-spacing: -0.02em;
+  text-align: center;
+  padding-top: 0.06em;
+  user-select: none;
+  will-change: transform, opacity;
+}
+.hero-ch {
+  cursor: default;
+}
+/* the film layer sits over the whole section once the screen has opened */
+.hero-film {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.hero-fade {
+  background: var(--cinema);
+  opacity: 0;
+}
+.hero-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 9vh;
+  background: var(--cinema);
+  /* parked off-screen with GSAP (yPercent), not CSS: a CSS translate would read back as px */
+}
+.hero-bar-t {
+  top: 0;
+}
+.hero-bar-b {
+  bottom: 0;
+}
+.hero-title {
+  position: absolute;
+  left: var(--gut);
+  bottom: 13vh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--ivory);
+  opacity: 0;
+}
+.hero-title .tiny {
+  color: color-mix(in srgb, var(--ivory) 70%, transparent);
+}
+.hero-title .disp {
+  font-size: clamp(36px, 5vw, 84px);
+  color: var(--ivory);
+}
+
+/* ================================================================== 02 MANIFESTO */
+.mani {
+  padding: 18vh var(--gut) 14vh;
+}
+.mani-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8vh;
+}
+.mani-text {
+  font-size: clamp(30px, 4.6vw, 80px);
+  line-height: 1.14;
+  letter-spacing: -0.01em;
+  max-width: 88vw;
+  margin: 0 auto;
+  text-align: center;
+}
+.mani-line-wrap {
+  display: inline;
+}
+.mani-w {
+  opacity: 0.14;
+}
+.mani-pill {
+  position: relative;
+  display: inline-block;
+  vertical-align: -0.16em;
+  height: 0.9em;
+  width: 0;
+  margin: 0 0.04em;
+  will-change: width, transform;
+}
+.mani-cap {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  transform: translateX(-50%) translateY(6px);
+  white-space: nowrap;
+  opacity: 0;
+  font-size: 9px;
+}
+.mani-figs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin: 14vh auto 0;
+  max-width: 1120px;
+}
+.mani-fig {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.mani-fig-n {
+  font-size: clamp(44px, 5.2vw, 88px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ================================================================== 03 IN MOTION */
+.motion {
+  height: 100vh;
+  min-height: 620px;
+  --ph: min(20vh, 20vw);
+}
+.motion-head {
+  position: absolute;
+  left: var(--gut);
+  right: var(--gut);
+  top: 88px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  z-index: 2;
+  pointer-events: none;
+}
+.motion-h {
+  font-size: clamp(24px, 2.4vw, 40px);
+}
+.motion-rows {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 52%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2.2vh;
+}
+.motion-row {
+  position: relative;
+  display: flex;
+  gap: 1.6vw;
+  width: max-content;
+  will-change: transform;
+}
+.motion-pill {
+  position: relative;
+  flex: none;
+  width: calc(var(--ph) * 1.62);
+  height: var(--ph);
+  margin: 0;
+  will-change: transform, opacity;
+}
+.motion-pill img {
+  filter: saturate(0.9) contrast(1.05);
+}
+.motion-chip,
+.motion-cap {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%) translateY(8px);
+  opacity: 0;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cinema) 55%, transparent);
+  color: var(--ivory);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  white-space: nowrap;
+  letter-spacing: 0.2em;
+}
+.motion-cap {
+  bottom: 6vh;
+  padding: 9px 18px 8px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  z-index: 2;
+}
+.motion-cap .num {
+  color: var(--champ);
+}
+.motion-cap .disp {
+  font-size: clamp(14px, 1.3vw, 22px);
+  color: var(--ivory);
+}
+.motion-pill.is-hero {
+  z-index: 3;
+}
+.motion-pill.is-hero .motion-chip {
+  display: none;
+}
+
+/* ================================================================== 04 THE COLLECTION */
+.coll {
+  height: 100vh;
+  min-height: 640px;
+  padding: 88px var(--gut) 60px;
+}
+.coll-grid {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(340px, 40%) 1fr;
+  gap: 3.5vw;
+}
+.coll-left {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.coll-kicker {
+  margin-bottom: 16px;
+}
+.coll-h {
+  font-size: clamp(32px, 3.5vw, 60px);
+  margin-bottom: 3vh;
+}
+.coll-list {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 26px;
+}
+.coll-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  will-change: transform;
+}
+.coll-item {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--fg-30);
+  transition: color 0.5s var(--ease-out);
+}
+.coll-item:hover {
+  color: var(--fg-70);
+}
+.coll-item.on {
+  color: var(--fg);
+}
+.coll-idx {
+  color: inherit;
+  opacity: 0.7;
+}
+.coll-name {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.6vw, 26px);
+  line-height: 1.1;
+  will-change: transform;
+}
+.coll-item.on .coll-name {
+  font-style: italic;
+}
+.coll-specs {
+  position: relative;
+  margin-top: auto;
+  height: 96px;
+}
+.coll-spec {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.coll-spec {
+  will-change: transform, opacity, filter;
+}
+.coll-note {
+  font-size: clamp(15px, 1.3vw, 21px);
+  line-height: 1.3;
+}
+.coll-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.coll-count b {
+  font-weight: 400;
+  color: var(--fg);
+}
+.coll-right {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 14px;
+  min-height: 0;
+}
+.coll-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r);
+  background: var(--bg-2);
+  min-height: 0;
+  will-change: clip-path;
+}
+.coll-img {
+  position: absolute;
+  inset: 0;
+  will-change: clip-path;
+}
+.coll-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  will-change: transform;
+}
+
+/* ================================================================== 05 THE MACHINE (film) */
+.mac {
+  background: var(--cinema);
+}
+.mac-stage {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+.mac-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.mac-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.mac-full,
+.mac-masked {
+  position: absolute;
+  inset: 0;
+}
+.mac-full {
+  opacity: 0;
+}
+.mac-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--cinema);
+}
+.mac-grade {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cinema) 35%, transparent), color-mix(in srgb, var(--cinema) 0%, transparent) 25%, color-mix(in srgb, var(--cinema) 0%, transparent) 70%, color-mix(in srgb, var(--cinema) 60%, transparent));
+}
+.mac-flicker {
+  background: #fff;
+  opacity: 0;
+  mix-blend-mode: overlay;
+}
+.mac-flash {
+  background: #fff;
+  opacity: 0;
+}
+.mac-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 9vh;
+  background: var(--cinema);
+  z-index: 4;
+}
+.mac-bar-t {
+  top: 0;
+}
+.mac-bar-b {
+  bottom: 0;
+}
+.mac-intro {
+  position: absolute;
+  left: var(--gut);
+  bottom: 9vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 3;
+}
+.mac-loading b {
+  font-weight: 400;
+  color: var(--champ);
+}
+.mac.is-ready .mac-loading {
+  display: none;
+}
+.mac-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+}
+.mac-tc {
+  position: absolute;
+  left: var(--gut);
+  top: 11.5vh;
+  display: flex;
+  gap: 22px;
+  align-items: baseline;
+}
+.mac-title {
+  position: absolute;
+  left: var(--gut);
+  bottom: 18vh;
+  right: var(--gut);
+  height: clamp(40px, 5.5vw, 92px);
+}
+.mac-name {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: clamp(36px, 5vw, 84px);
+  white-space: nowrap;
+  color: var(--ivory);
+  overflow: hidden;
+  padding: 0 0.1em 0.08em 0;
+}
+.mac-specs {
+  position: absolute;
+  left: var(--gut);
+  bottom: 13vh;
+  height: 16px;
+}
+.mac-spec {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  white-space: nowrap;
+}
+.mac-strip {
+  position: absolute;
+  right: var(--gut);
+  bottom: 13vh;
+  display: flex;
+  gap: 8px;
+}
+.mac-seg {
+  position: relative;
+  width: 44px;
+  height: 2px;
+  background: color-mix(in srgb, var(--ivory) 20%, transparent);
+}
+.mac-seg i {
+  position: absolute;
+  inset: 0;
+  background: var(--champ);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.mac-seg b {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  opacity: 0.4;
+  transition: opacity 0.4s;
+}
+.mac-seg.on b {
+  opacity: 1;
+}
+
+/* ================================================================== 07 THE JOURNEY */
+.jny-stage {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+.jny-frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: clip-path;
+}
+.jny-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 160vw;
+  will-change: transform;
+}
+.jny-track img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+  filter: sepia(0.2) saturate(0.85) contrast(1.08) brightness(0.88);
+  will-change: transform;
+}
+.jny-sun {
+  background: radial-gradient(ellipse 40vw 40vh at 70% 18%, rgba(255, 190, 110, 0.45), rgba(255, 190, 110, 0) 70%);
+}
+.jny-cool {
+  background: linear-gradient(180deg, rgba(40, 60, 90, 0.5), rgba(20, 25, 45, 0.6));
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+.jny-grade {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cinema) 40%, transparent), color-mix(in srgb, var(--cinema) 0%, transparent) 30%, color-mix(in srgb, var(--cinema) 0%, transparent) 60%, color-mix(in srgb, var(--cinema) 70%, transparent));
+}
+.jny-dark {
+  background: var(--cinema);
+  opacity: 0;
+}
+.jny-kicker {
+  position: absolute;
+  left: var(--gut);
+  top: 12vh;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2;
+}
+.jny-quote {
+  position: absolute;
+  left: var(--gut);
+  right: var(--gut);
+  bottom: 22vh;
+  font-size: clamp(30px, 4.4vw, 76px);
+  line-height: 1.05;
+  max-width: 22ch;
+  color: var(--ivory);
+  z-index: 2;
+}
+.jny-quote .w {
+  padding-right: 0.02em;
+}
+.jny-meta {
+  position: absolute;
+  left: var(--gut);
+  bottom: 14.5vh;
+  display: flex;
+  gap: 32px;
+  z-index: 2;
+}
+.jny-line {
+  position: absolute;
+  left: var(--gut);
+  right: var(--gut);
+  bottom: 9vh;
+  height: 1px;
+  background: color-mix(in srgb, var(--ivory) 20%, transparent);
+  z-index: 2;
+}
+.jny-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--champ);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.jny-dot {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: var(--champ);
+}
+
+/* ================================================================== 08 THE JOURNAL */
+.jrn {
+  padding: 16vh var(--gut) 12vh;
+}
+.jrn-head {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 7vh;
+}
+.jrn-h {
+  font-size: clamp(38px, 5vw, 88px);
+}
+.jrn-body {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 3vw;
+  align-items: start;
+}
+.jrn-side {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.jrn-rows {
+  display: flex;
+  flex-direction: column;
+}
+.jrn-row {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 56px minmax(220px, 30%) 1fr 56px;
+  align-items: center;
+  gap: 3vw;
+  padding: 4.5vh 12px;
+  color: var(--fg);
+}
+.jrn-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--r);
+  background: var(--fg-08);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.9s var(--ease-out);
+}
+.jrn-row.is-hover::before {
+  transform: scaleX(1);
+}
+.jrn-rule {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 0;
+}
+.jrn-plate {
+  width: 100%;
+  aspect-ratio: 1.55;
+  border-radius: var(--r);
+  will-change: transform, clip-path;
+}
+.jrn-plate img {
+  transition: none;
+}
+.jrn-txt {
+  display: block;
+  transition: transform 0.8s var(--ease-out);
+}
+.jrn-row.is-hover .jrn-txt {
+  transform: translateX(14px);
+}
+.jrn-title {
+  display: block;
+  font-size: clamp(28px, 3vw, 52px);
+}
+.jrn-meta {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+}
+.jrn-arrow {
+  font-family: var(--font-display);
+  font-size: 30px;
+  text-align: right;
+  transition: transform 0.7s var(--ease-out);
+}
+.jrn-row.is-hover .jrn-arrow {
+  transform: rotate(-45deg);
+}
+
+/* ================================================================== 09 LEGACY */
+.fin {
+  padding: 16vh var(--gut) 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 8vh;
+}
+.fin-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4vw;
+  align-items: end;
+}
+.fin-h {
+  font-size: clamp(40px, 5.6vw, 96px);
+  margin: 18px 0 22px;
+}
+.fin-copy {
+  max-width: 460px;
+  margin: 0 0 28px;
+}
+.fin-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.fin-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+}
+.fin-links a {
+  color: var(--fg);
+}
+.fin-banner {
+  width: 42%;
+  /* a fixed height: the width is scrubbed, and an aspect ratio would grow the page mid-scroll */
+  height: clamp(200px, 36vh, 420px);
+  margin: 0 auto;
+  border-radius: 999px;
+  will-change: width, border-radius;
+}
+.fin-banner img {
+  transition: none;
+  filter: sepia(0.25) saturate(0.8) contrast(1.1) brightness(0.85);
+}
+.fin-banner-cap {
+  position: absolute;
+  left: 28px;
+  bottom: 22px;
+  color: color-mix(in srgb, var(--ivory) 80%, transparent);
+}
+.fin-wordmark {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+.fin-mark {
+  display: block;
+  font-size: 17vw;
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  padding: 0.04em 0.05em 0.1em 0;
+}
+.fin-mark-2 {
+  align-self: flex-end;
+  color: var(--champ);
+}
+.fin-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.fin-clock b {
+  font-weight: 400;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}

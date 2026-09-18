@@ -1,0 +1,38 @@
+{
+ "width": 1024,
+ "height": 576,
+ "count": 96,
+ "fpc": 16,
+ "segments": [
+  {
+   "index": 0,
+   "start": 0,
+   "end": 16
+  },
+  {
+   "index": 1,
+   "start": 16,
+   "end": 32
+  },
+  {
+   "index": 2,
+   "start": 32,
+   "end": 48
+  },
+  {
+   "index": 3,
+   "start": 48,
+   "end": 64
+  },
+  {
+   "index": 4,
+   "start": 64,
+   "end": 80
+  },
+  {
+   "index": 5,
+   "start": 80,
+   "end": 96
+  }
+ ]
+}

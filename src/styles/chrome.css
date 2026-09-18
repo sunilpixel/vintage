@@ -1,0 +1,617 @@
+/* ==================================================================
+   Site chrome: nav + pill buttons, menu, preloader, chapter counter,
+   cursor, marquee, magnetic, lens ring
+   ================================================================== */
+
+/* ------------------------------------------------------------ pill button */
+.pill-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 8px 0 20px;
+  border-radius: 999px;
+  border: 1px solid var(--fg-16);
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--fg);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    color 0.45s var(--ease-out),
+    border-color 0.45s var(--ease-out);
+}
+.pill-btn.solid {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+/* the fill grows from where the pointer came in (--px / --py written on pointerenter) */
+.pill-fill {
+  position: absolute;
+  left: var(--px, 50%);
+  top: var(--py, 50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--fg);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.7s var(--ease-out),
+    height 0.7s var(--ease-out);
+  z-index: -1;
+}
+.pill-btn.solid .pill-fill {
+  background: var(--accent);
+}
+.pill-label {
+  position: relative;
+  display: block;
+  height: 1.2em;
+  line-height: 1.2em;
+  overflow: hidden;
+}
+.pill-txt {
+  display: block;
+  transition: transform 0.6s var(--ease-out);
+}
+.pill-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--fg-08);
+  font-size: 14px;
+  line-height: 1;
+  transition:
+    transform 0.7s var(--ease-out),
+    background-color 0.45s var(--ease-out);
+}
+.pill-btn.solid .pill-icon {
+  background: color-mix(in srgb, var(--bg) 18%, transparent);
+}
+@media (hover: hover) {
+  .pill-btn:hover {
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .pill-btn.solid:hover {
+    color: var(--ink);
+  }
+  .pill-btn:hover .pill-fill {
+    width: 300%;
+    height: 800%;
+  }
+  .pill-btn:hover .pill-txt {
+    transform: translateY(-100%);
+  }
+  .pill-btn:hover .pill-icon {
+    transform: rotate(90deg);
+    background: color-mix(in srgb, var(--bg) 22%, transparent);
+  }
+}
+.pill-btn.is-open .pill-icon {
+  transform: rotate(45deg);
+}
+
+/* ------------------------------------------------------------ nav */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 84px;
+  padding: 0 var(--gut);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 50;
+  pointer-events: none;
+  transition: transform 0.8s var(--ease-out);
+}
+.nav > * {
+  pointer-events: auto;
+}
+.nav.is-hidden,
+.nav-brand.is-hidden {
+  transform: translateY(-110%);
+}
+.nav-brand {
+  position: fixed;
+  left: var(--gut);
+  top: 0;
+  height: 84px;
+  z-index: 51;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.8s var(--ease-out);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  /* white in difference mode: reads on paper, on cinema black and across plates */
+  color: #fff;
+  mix-blend-mode: difference;
+}
+.nav-brand .disp {
+  font-size: 15px;
+}
+.nav-brand-rest {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 120px;
+  white-space: nowrap;
+  transition:
+    max-width 0.8s var(--ease-out),
+    opacity 0.5s var(--ease-out);
+}
+.nav-brand.is-compact .nav-brand-rest {
+  max-width: 0;
+  opacity: 0;
+}
+.nav-brand-est {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: 12px;
+  transition: opacity 0.5s var(--ease-out);
+}
+.nav-brand.is-compact .nav-brand-est {
+  opacity: 0;
+}
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* ------------------------------------------------------------ menu overlay */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: var(--cinema);
+  color: var(--ivory);
+  clip-path: inset(0 0 100% 0);
+  display: none;
+  padding: 0 var(--gut);
+}
+.menu.is-open {
+  display: block;
+}
+.menu-list {
+  position: absolute;
+  left: var(--gut);
+  right: var(--gut);
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 6vw;
+  max-width: 1200px;
+}
+.menu-item {
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  color: var(--ivory);
+  padding: 12px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ivory) 14%, transparent);
+  transition: color 0.5s var(--ease-out);
+}
+.menu-item:hover {
+  color: var(--champ);
+}
+.menu-n {
+  min-width: 24px;
+  color: var(--champ);
+}
+.menu-label {
+  display: block;
+  overflow: hidden;
+  font-size: clamp(30px, 3.4vw, 56px);
+  line-height: 1;
+  padding-bottom: 0.08em;
+  transition: transform 0.7s var(--ease-out);
+}
+.menu-item:hover .menu-label {
+  transform: translateX(12px);
+}
+.menu-preview {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 240px;
+  height: 150px;
+  border-radius: 999px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+.menu-preview img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out);
+}
+.menu-preview img.on {
+  opacity: 1;
+}
+.menu-foot {
+  position: absolute;
+  left: var(--gut);
+  right: var(--gut);
+  bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  color: color-mix(in srgb, var(--ivory) 50%, transparent);
+}
+
+/* ------------------------------------------------------------ preloader */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+}
+.pre {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--paper);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  will-change: clip-path;
+}
+.pre-brand {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 54px);
+  letter-spacing: 0.2em;
+  overflow: hidden;
+  padding: 0.1em 0 0.15em 0.2em;
+  white-space: nowrap;
+}
+.pre-line {
+  width: 240px;
+  height: 1px;
+  background: var(--bronze);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.pre-row {
+  width: 240px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.pre-est {
+  color: var(--bronze);
+}
+.pre-count {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* ------------------------------------------------------------ chapter counter (bottom-left) */
+.chap {
+  position: fixed;
+  left: var(--gut);
+  bottom: 26px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+  color: #fff;
+  mix-blend-mode: difference;
+}
+.chap-n {
+  display: flex;
+  height: 14px;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  line-height: 14px;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.chap-col {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+.chap-col span {
+  display: block;
+  height: 14px;
+}
+.chap-of {
+  color: rgba(255, 255, 255, 0.5);
+}
+.chap-line {
+  width: 40px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+.chap-line i {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.chap-label {
+  position: relative;
+  height: 14px;
+  min-width: 120px;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.75);
+}
+.chap-label span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  line-height: 14px;
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------ cursor (inverts over anything) */
+.cursor {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0;
+  mix-blend-mode: difference;
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor {
+    display: none;
+  }
+}
+.cursor-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: #fff;
+  transition:
+    width 0.35s var(--ease-out),
+    height 0.35s var(--ease-out),
+    opacity 0.3s;
+}
+.cursor-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  transition:
+    width 0.55s var(--ease-out),
+    height 0.55s var(--ease-out),
+    opacity 0.4s,
+    background-color 0.4s;
+}
+.cursor-label {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #fff;
+  padding-left: 0.3em;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.cursor-arrow {
+  font-size: 11px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.cursor[data-state="link"] .cursor-dot {
+  width: 4px;
+  height: 4px;
+}
+.cursor[data-state="link"] .cursor-ring {
+  width: 40px;
+  height: 40px;
+  opacity: 1;
+}
+.cursor[data-state="image"] .cursor-dot {
+  width: 4px;
+  height: 4px;
+}
+.cursor[data-state="image"] .cursor-ring {
+  width: 56px;
+  height: 56px;
+  opacity: 1;
+}
+.cursor[data-state="view"] .cursor-dot,
+.cursor[data-state="drag"] .cursor-dot,
+.cursor[data-state="play"] .cursor-dot,
+.cursor[data-state="read"] .cursor-dot,
+.cursor[data-state="explore"] .cursor-dot {
+  opacity: 0;
+}
+.cursor[data-state="view"] .cursor-ring,
+.cursor[data-state="drag"] .cursor-ring,
+.cursor[data-state="play"] .cursor-ring,
+.cursor[data-state="read"] .cursor-ring,
+.cursor[data-state="explore"] .cursor-ring {
+  width: 92px;
+  height: 92px;
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.cursor[data-state="view"] .cursor-label,
+.cursor[data-state="drag"] .cursor-label,
+.cursor[data-state="play"] .cursor-label,
+.cursor[data-state="read"] .cursor-label,
+.cursor[data-state="explore"] .cursor-label {
+  opacity: 1;
+}
+.cursor[data-state="drag"] .cursor-arrow {
+  opacity: 1;
+}
+.cursor[data-state="lens"] .cursor-dot {
+  width: 2px;
+  height: 2px;
+}
+.cursor[data-state="lens"] .cursor-ring {
+  width: 28px;
+  height: 28px;
+  opacity: 1;
+}
+.cursor[data-state="hide"] .cursor-dot,
+.cursor[data-state="hide"] .cursor-ring {
+  opacity: 0;
+}
+.cursor.is-down .cursor-ring {
+  scale: 0.85;
+}
+
+/* ------------------------------------------------------------ optical lens (DOM half) */
+.lens-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 220px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 5;
+  will-change: transform;
+}
+.lens-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--ivory) 70%, transparent);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.4),
+    0 40px 80px rgba(0, 0, 0, 0.4),
+    inset 0 0 60px rgba(255, 255, 255, 0.05);
+}
+.lens-tick {
+  position: absolute;
+  background: color-mix(in srgb, var(--ivory) 70%, transparent);
+}
+.lens-tick-t { left: 50%; top: -14px; width: 1px; height: 9px; }
+.lens-tick-b { left: 50%; bottom: -14px; width: 1px; height: 9px; }
+.lens-tick-l { top: 50%; left: -14px; width: 9px; height: 1px; }
+.lens-tick-r { top: 50%; right: -14px; width: 9px; height: 1px; }
+.lens-label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  color: var(--ivory);
+}
+.lens-label-right {
+  left: calc(100% + 30px);
+}
+.lens-label-left,
+.lens-ring.lens-flip .lens-label-right {
+  left: auto;
+  right: calc(100% + 30px);
+  text-align: right;
+}
+
+/* ------------------------------------------------------------ marquee */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 4vw, 56px) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.marquee-half {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;
+  padding-right: 40px;
+  font-size: clamp(40px, 5.4vw, 88px);
+  line-height: 1;
+  color: var(--fg);
+  transition: color 0.5s var(--ease-out);
+}
+.marquee:hover .marquee-item {
+  color: var(--accent);
+}
+.marquee-item i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ------------------------------------------------------------ magnetic */
+.magnetic {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ------------------------------------------------------------ underline links */
+.ul {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+.ul::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.6s var(--ease-out);
+}
+.ul:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
